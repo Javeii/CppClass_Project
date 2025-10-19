@@ -1,24 +1,31 @@
-#include <gtest/gtest.h>
+#include <gtest/gtest.h>  // 引入gtest测试框架
 
-#include <memory>
-#include <tuple>
+#include <memory>  // 引入智能指针，管理Executor对象内存
+#include <tuple>   // 引入tuple，简化Pose对象成员比较
 
-#include "Executor.hpp"
+#include "Executor.hpp"  // 引入接口定义
 
-namespace adas
+namespace adas  // 避免命名冲突
 {
 bool operator==(const Pose& lhs, const Pose& rhs)
 {  // 为Pose定义==运算符重载，使得在测试中比较Pose对象变得简单明了， std::tie提高代码可读性
+    // 用std::tie将Pose的x、y、heading成员打包为tuple对象，通过tuple比较实现结构体比较（tuple结构体用于成员变量比较）
+
     return std::tie(lhs.x, lhs.y, lhs.heading) == std::tie(rhs.x, rhs.y, rhs.heading);
 }
-// 测试套件       测试用例名，清晰地描述了预期行为和测试的条件，更容易理解测试在验证什么
+
+//测试部分
+//
+//    测试套件名      测试用例名，清晰地描述了预期行为和测试的条件，更容易理解测试在验证什么
 TEST(ExecutorTest, should_return_init_pose_when_without_command)
-{
+{  // 测试遵循了 Arrange-Act-Assert (AAA) 模式，这是提高可读性和维护性的好习惯
     // given
+    // 使用std::unique_ptr智能指针：自动释放对象内存，避免内存泄漏
     std::unique_ptr<Executor> executor(Executor::NewExecutor({0, 0, 'E'}));
-    // when		测试遵循了 Arrange-Act-Assert (AAA) 模式，这是提高可读性和维护性的好习惯
+    // when
     // then
     const Pose target({0, 0, 'E'});
+    // gtest断言宏，若左右值不相等则终止当前测试并报错（自验性，符合FIRST原则的Self-Validating）
     ASSERT_EQ(target, executor->Query());
 }
 TEST(ExecutorTest, should_return_default_pose_when_without_init_and_command)
