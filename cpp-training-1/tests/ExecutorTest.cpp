@@ -11,7 +11,7 @@ bool operator==(const Pose& lhs, const Pose& rhs)
 {  // 为Pose定义==运算符重载，使得在测试中比较Pose对象变得简单明了， std::tie提高代码可读性
     return std::tie(lhs.x, lhs.y, lhs.heading) == std::tie(rhs.x, rhs.y, rhs.heading);
 }
-//       测试套            测试用例名，清晰地描述了预期行为和测试的条件，更容易理解测试在验证什么
+    //测试套件       测试用例名，清晰地描述了预期行为和测试的条件，更容易理解测试在验证什么
 TEST(ExecutorTest, should_return_init_pose_when_without_command)
 {
     // given
@@ -29,5 +29,26 @@ TEST(ExecutorTest, should_return_default_pose_when_without_init_and_command)
     const Pose target({0, 0, 'N'});
     ASSERT_EQ(target, executor->Query());
 }
+TEST(ExecutorTest, should_return_x_plus_1_given_command_is_M_and_facing_is_E)
+{
+    // given
+    std::unique_ptr<Executor> executor(Executor::NewExecutor({0, 0, 'E'}));
+    // when
+    executor->Execute("M");
+    // then
+    const Pose target({1, 0, 'E'});
+    ASSERT_EQ(target, executor->Query());
+}
+TEST(ExecutorTest, should_return_x_minus_1_given_command_is_M_and_facing_is_W)
+{
 
+}
+TEST(ExecutorTest, should_return_y_plus_1_given_command_is_M_and_facing_is_N)
+{
+
+}
+TEST(ExecutorTest, should_return_y_minus_1_given_command_is_M_and_facing_is_S)
+{
+
+}
 }  // namespace adas
