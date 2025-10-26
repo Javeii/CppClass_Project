@@ -1,6 +1,7 @@
 // 定义子类implement
 #pragma once
 #include "Executor.hpp"
+#include "PoseHandler.hpp"
 
 namespace adas
 {
@@ -21,15 +22,6 @@ public:
 
 private:
     // “最小可见原则”
-    Pose pose;
-    bool fast{false};
-
-public:
-    void Move(void) noexcept;
-    void TurnLeft(void) noexcept;
-    void TurnRight(void) noexcept;
-    void Fast(void) noexcept;
-
-    bool IsFast(void) const noexcept;
+    PoseHandler posehandler;
 };
 }  // namespace adas

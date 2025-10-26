@@ -1,17 +1,17 @@
 #pragma once
-#include "ExecutorImpl.hpp"
+#include "PoseHandler.hpp"
 namespace adas
 {
 class ICommand
 {
 public:
     virtual ~ICommand() = default;
-    virtual void DoOperate(ExecutorImpl& executor) const noexcept = 0;
+    virtual void DoOperate(PoseHandler& executor) const noexcept = 0;
 };
 class MoveCommand final : public ICommand
 {
 public:
-    void DoOperate(ExecutorImpl& executor) const noexcept override
+    void DoOperate(PoseHandler& executor) const noexcept override
     {
         if (executor.IsFast()) {
             executor.Move();
@@ -23,7 +23,7 @@ public:
 class TurnLeftCommand final : public ICommand
 {
 public:
-    void DoOperate(ExecutorImpl& executor) const noexcept override
+    void DoOperate(PoseHandler& executor) const noexcept override
     {
         if (executor.IsFast()) {
             executor.Move();
@@ -35,7 +35,7 @@ public:
 class TurnRightCommand final : public ICommand
 {
 public:
-    void DoOperate(ExecutorImpl& executor) const noexcept override
+    void DoOperate(PoseHandler& executor) const noexcept override
     {
         if (executor.IsFast()) {
             executor.Move();
@@ -47,7 +47,7 @@ public:
 class FastCommand final : public ICommand
 {
 public:
-    void DoOperate(ExecutorImpl& executor) const noexcept override
+    void DoOperate(PoseHandler& executor) const noexcept override
     {
         executor.Fast();
     }

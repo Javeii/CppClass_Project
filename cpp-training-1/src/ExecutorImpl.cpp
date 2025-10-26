@@ -10,7 +10,7 @@ Executor* Executor::NewExecutor(const Pose& pose) noexcept
 {
     return new (std::nothrow) ExecutorImpl(pose);
 }
-ExecutorImpl::ExecutorImpl(const Pose& pose) noexcept : pose(pose)
+ExecutorImpl::ExecutorImpl(const Pose& pose) noexcept : posehandler(pose)
 {
 }
 void ExecutorImpl::Execute(const std::string& commands) noexcept
@@ -31,79 +31,12 @@ void ExecutorImpl::Execute(const std::string& commands) noexcept
         }
 
         if (cmder) {
-            cmder->DoOperate(*this);
+            cmder->DoOperate(posehandler);
         }
     }
 }
-void ExecutorImpl::Move() noexcept
-{
-    switch (pose.heading) {
-    case 'N':
-        pose.y += 1;
-        break;
-    case 'S':
-        pose.y -= 1;
-        break;
-    case 'E':
-        pose.x += 1;
-        break;
-    case 'W':
-        pose.x -= 1;
-        break;
-    // 默认情况可以处理未知方向
-    default:
-        break;
-    }
-}
-void ExecutorImpl::TurnLeft() noexcept
-{
-    switch (pose.heading) {
-    case 'N':
-        pose.heading = 'W';
-        break;
-    case 'S':
-        pose.heading = 'E';
-        break;
-    case 'E':
-        pose.heading = 'N';
-        break;
-    case 'W':
-        pose.heading = 'S';
-        break;
-    default:
-        break;
-    }
-}
-void ExecutorImpl::TurnRight() noexcept
-{
-    switch (pose.heading) {
-    case 'N':
-        pose.heading = 'E';
-        break;
-    case 'S':
-        pose.heading = 'W';
-        break;
-    case 'E':
-        pose.heading = 'S';
-        break;
-    case 'W':
-        pose.heading = 'N';
-        break;
-    default:
-        break;
-    }
-}
-void ExecutorImpl::Fast() noexcept
-{
-    fast = !fast;
-}
-bool ExecutorImpl::IsFast() const noexcept
-{
-    return fast;
-}
 Pose ExecutorImpl::Query() const noexcept
 {
-    return pose;
+    return posehandler.Query();
 }
-
 }  // namespace adas
