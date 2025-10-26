@@ -24,6 +24,10 @@ void ExecutorImpl::Execute(const std::string& commands) noexcept
         if (command == 'R') {  // TurnRight();
             cmder = std::make_unique<TurnRightCommand>();
         }
+        if (command == 'F') {  // Fast();
+            cmder = std::make_unique<FastCommand>();
+        }
+
         if (cmder) {
             cmder->DoOperate(*this);
         }
@@ -86,6 +90,14 @@ void ExecutorImpl::TurnRight() noexcept
     default:
         break;
     }
+}
+void ExecutorImpl::Fast() noexcept
+{
+    fast = !fast;
+}
+bool ExecutorImpl::IsFast() const noexcept
+{
+    return fast;
 }
 Pose ExecutorImpl::Query() const noexcept
 {

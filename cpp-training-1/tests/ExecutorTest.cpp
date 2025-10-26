@@ -1,19 +1,12 @@
 #include <gtest/gtest.h>  // 引入gtest测试框架
 
 #include <memory>  // 引入智能指针，管理Executor对象内存
-#include <tuple>   // 引入tuple，简化Pose对象成员比较
 
 #include "Executor.hpp"  // 引入接口定义
+#include "PoseEq.hpp"
 
 namespace adas  // 避免命名冲突
 {
-bool operator==(const Pose& lhs, const Pose& rhs)
-{  // 为Pose定义==运算符重载，使得在测试中比较Pose对象变得简单明了， std::tie提高代码可读性
-    // 用std::tie将Pose的x、y、heading成员打包为tuple对象，通过tuple比较实现结构体比较（tuple结构体用于成员变量比较）
-
-    return std::tie(lhs.x, lhs.y, lhs.heading) == std::tie(rhs.x, rhs.y, rhs.heading);
-}
-
 // 测试部分
 //
 //     测试套件名      测试用例名，清晰地描述了预期行为和测试的条件，更容易理解测试在验证什么
@@ -36,6 +29,7 @@ TEST(ExecutorTest, should_return_default_pose_when_without_init_and_command)
     const Pose target({0, 0, 'N'});
     ASSERT_EQ(target, executor->Query());
 }
+// M
 TEST(ExecutorTest, should_return_x_plus_1_given_command_is_M_and_facing_is_E)
 {
     // given
