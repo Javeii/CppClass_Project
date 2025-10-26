@@ -20,10 +20,14 @@ void ExecutorImpl::Execute(const std::string& commands) noexcept
             cmder->DoOperate(*this);
         }
         if (command == 'L') {  // 左转指令
-            TurnLeft();
+            // TurnLeft();
+            std::unique_ptr<TurnLeftCommand> cmder = std::make_unique<TurnLeftCommand>();
+            cmder->DoOperate(*this);
         }
         if (command == 'R') {  // 右转指令
-            TurnRight();
+            // TurnRight();
+            std::unique_ptr<TurnRightCommand> cmder = std::make_unique<TurnRightCommand>();
+            cmder->DoOperate(*this);
         }
     }
 }
