@@ -14,19 +14,17 @@ ExecutorImpl::ExecutorImpl(const Pose& pose) noexcept : pose(pose)
 void ExecutorImpl::Execute(const std::string& commands) noexcept
 {
     for (char command : commands) {
-        if (command == 'M') {  // 移动指令
-            // Move();
-            std::unique_ptr<MoveCommand> cmder = std::make_unique<MoveCommand>();
-            cmder->DoOperate(*this);
+        std::unique_ptr<ICommand> cmder;
+        if (command == 'M') {  // Move();
+            cmder = std::make_unique<MoveCommand>();
         }
-        if (command == 'L') {  // 左转指令
-            // TurnLeft();
-            std::unique_ptr<TurnLeftCommand> cmder = std::make_unique<TurnLeftCommand>();
-            cmder->DoOperate(*this);
+        if (command == 'L') {  // TurnLeft();
+            cmder = std::make_unique<TurnLeftCommand>();
         }
-        if (command == 'R') {  // 右转指令
-            // TurnRight();
-            std::unique_ptr<TurnRightCommand> cmder = std::make_unique<TurnRightCommand>();
+        if (command == 'R') {  // TurnRight();
+            cmder = std::make_unique<TurnRightCommand>();
+        }
+        if (cmder) {
             cmder->DoOperate(*this);
         }
     }
