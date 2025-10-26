@@ -1,5 +1,7 @@
 #include "ExecutorImpl.hpp"
 
+#include <memory>
+
 namespace adas
 {
 Executor* Executor::NewExecutor(const Pose& pose) noexcept
@@ -13,7 +15,9 @@ void ExecutorImpl::Execute(const std::string& commands) noexcept
 {
     for (char command : commands) {
         if (command == 'M') {  // 移动指令
-            Move();
+            // Move();
+            std::unique_ptr<MoveCommand> cmder = std::make_unique<MoveCommand>();
+            cmder->DoOperate(*this);
         }
         if (command == 'L') {  // 左转指令
             TurnLeft();
