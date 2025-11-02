@@ -1,55 +1,86 @@
 #pragma once
+#include <functional>
+
 #include "PoseHandler.hpp"
 namespace adas
 {
-class ICommand
+// class ICommand
+// {
+// public:
+//     virtual ~ICommand() = default;
+//     virtual void DoOperate(PoseHandler& executor) const noexcept = 0;
+// };
+class MoveCommand final  // : public ICommand
 {
+    // public:
+    //  void DoOperate(PoseHandler& executor) const noexcept override
+    //  {
+    //      if (executor.IsFast()) {
+    //          executor.Move();
+    //      }
+
+    //     executor.Move();
+    // }
 public:
-    virtual ~ICommand() = default;
-    virtual void DoOperate(PoseHandler& executor) const noexcept = 0;
-};
-class MoveCommand final : public ICommand
-{
-public:
-    void DoOperate(PoseHandler& executor) const noexcept override
+    void operator()(PoseHandler& posehandler) const noexcept
     {
-        if (executor.IsFast()) {
-            executor.Move();
+        if (posehandler.IsFast()) {
+            posehandler.Move();
         }
 
-        executor.Move();
+        posehandler.Move();
     }
 };
-class TurnLeftCommand final : public ICommand
+class TurnLeftCommand final  // : public ICommand
 {
 public:
-    void DoOperate(PoseHandler& executor) const noexcept override
+    // void DoOperate(PoseHandler& executor) const noexcept override
+    // {
+    //     if (executor.IsFast()) {
+    //         executor.Move();
+    //     }
+
+    //     executor.TurnLeft();
+    // }
+    void operator()(PoseHandler& posehandler) const noexcept
     {
-        if (executor.IsFast()) {
-            executor.Move();
+        if (posehandler.IsFast()) {
+            posehandler.Move();
         }
 
-        executor.TurnLeft();
-    }
+        posehandler.TurnLeft();
+    };
 };
-class TurnRightCommand final : public ICommand
+class TurnRightCommand final  // : public ICommand
 {
 public:
-    void DoOperate(PoseHandler& executor) const noexcept override
+    // void DoOperate(PoseHandler& executor) const noexcept override
+    // {
+    //     if (executor.IsFast()) {
+    //         executor.Move();
+    //     }
+
+    //     executor.TurnRight();
+    // }
+    void operator()(PoseHandler& posehandler) const noexcept
     {
-        if (executor.IsFast()) {
-            executor.Move();
+        if (posehandler.IsFast()) {
+            posehandler.Move();
         }
 
-        executor.TurnRight();
-    }
+        posehandler.TurnRight();
+    };
 };
-class FastCommand final : public ICommand
+class FastCommand final  // : public ICommand
 {
 public:
-    void DoOperate(PoseHandler& executor) const noexcept override
+    // void DoOperate(PoseHandler& executor) const noexcept override
+    // {
+    //     executor.Fast();
+    //
+    void operator()(PoseHandler& posehandler) const noexcept
     {
-        executor.Fast();
-    }
+        posehandler.Fast();
+    };
 };
 }  // namespace adas

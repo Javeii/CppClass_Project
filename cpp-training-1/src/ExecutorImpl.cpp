@@ -1,6 +1,7 @@
 #include "ExecutorImpl.hpp"
 
 #include <memory>
+#include <unordered_map>
 
 #include "Command.hpp"
 
@@ -15,23 +16,23 @@ ExecutorImpl::ExecutorImpl(const Pose& pose) noexcept : posehandler(pose)
 }
 void ExecutorImpl::Execute(const std::string& commands) noexcept
 {
-    for (char command : commands) {
-        std::unique_ptr<ICommand> cmder;
-        if (command == 'M') {  // Move();
-            cmder = std::make_unique<MoveCommand>();
-        }
-        if (command == 'L') {  // TurnLeft();
-            cmder = std::make_unique<TurnLeftCommand>();
-        }
-        if (command == 'R') {  // TurnRight();
-            cmder = std::make_unique<TurnRightCommand>();
-        }
-        if (command == 'F') {  // Fast();
-            cmder = std::make_unique<FastCommand>();
-        }
+    // std::unordered_map<char, std::function<void(PoseHandler & posehandler)>> cmderMap;
+    // cmderMap.emplace('M', MoveCommand());
+    // cmderMap.emplace('L', TurnLeftCommand());
+    // cmderMap.emplace('R', TurnRightCommand());
+    // cmderMap.emplace('F', FastCommand());
+    const std::unordered_map<char, std::function<void(PoseHandler & posehandler)>> cmderMap{
+        {'M', MoveCommand()},
+        {'L', TurnLeftCommand()},
+        {'R', TurnRightCommand()},
+        {'F', FastCommand()},
+    };
 
-        if (cmder) {
-            cmder->DoOperate(posehandler);
+    for (const auto cmd : commands) {
+        const auto it = cmderMap.find(cmd);
+
+        if (it != cmderMap.end()) {
+            it->second(posehandler);
         }
     }
 }
