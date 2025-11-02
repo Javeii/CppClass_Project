@@ -16,19 +16,26 @@ class MoveCommand final  // : public ICommand
     //  void DoOperate(PoseHandler& executor) const noexcept override
     //  {
     //      if (executor.IsFast()) {
-    //          executor.Move();
+    //          executor.Forward();
     //      }
-
-    //     executor.Move();
+    //     executor.Forward();
     // }
 public:
     void operator()(PoseHandler& posehandler) const noexcept
     {
         if (posehandler.IsFast()) {
-            posehandler.Move();
+            if (posehandler.IsReverse()) {
+                posehandler.Backward();
+            } else {
+                posehandler.Forward();
+            }
         }
 
-        posehandler.Move();
+        if (posehandler.IsReverse()) {
+            posehandler.Backward();
+        } else {
+            posehandler.Forward();
+        }
     }
 };
 class TurnLeftCommand final  // : public ICommand
@@ -37,18 +44,25 @@ public:
     // void DoOperate(PoseHandler& executor) const noexcept override
     // {
     //     if (executor.IsFast()) {
-    //         executor.Move();
+    //         executor.Forward();
     //     }
-
     //     executor.TurnLeft();
     // }
     void operator()(PoseHandler& posehandler) const noexcept
     {
         if (posehandler.IsFast()) {
-            posehandler.Move();
+            if (posehandler.IsReverse()) {
+                posehandler.Backward();
+            } else {
+                posehandler.Forward();
+            }
         }
 
-        posehandler.TurnLeft();
+        if (posehandler.IsReverse()) {
+            posehandler.TurnRight();
+        } else {
+            posehandler.TurnLeft();
+        }
     };
 };
 class TurnRightCommand final  // : public ICommand
@@ -57,18 +71,24 @@ public:
     // void DoOperate(PoseHandler& executor) const noexcept override
     // {
     //     if (executor.IsFast()) {
-    //         executor.Move();
+    //         executor.Forward();
     //     }
-
     //     executor.TurnRight();
     // }
     void operator()(PoseHandler& posehandler) const noexcept
     {
         if (posehandler.IsFast()) {
-            posehandler.Move();
+            if (posehandler.IsReverse()) {
+                posehandler.Backward();
+            } else {
+                posehandler.Forward();
+            }
         }
-
-        posehandler.TurnRight();
+        if (posehandler.IsReverse()) {
+            posehandler.TurnLeft();
+        } else {
+            posehandler.TurnRight();
+        }
     };
 };
 class FastCommand final  // : public ICommand
@@ -82,5 +102,13 @@ public:
     {
         posehandler.Fast();
     };
+};
+class ReverseCommand final
+{
+public:
+    void operator()(PoseHandler& posehandler) const noexcept
+    {
+        posehandler.Reverse();
+    }
 };
 }  // namespace adas

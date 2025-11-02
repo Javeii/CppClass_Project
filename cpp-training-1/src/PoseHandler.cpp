@@ -5,7 +5,7 @@ namespace adas
 PoseHandler::PoseHandler(const Pose& pose) noexcept : pose(pose)
 {
 }
-void PoseHandler::Move() noexcept
+void PoseHandler::Forward() noexcept
 {
     switch (pose.heading) {
     case 'N':
@@ -19,6 +19,26 @@ void PoseHandler::Move() noexcept
         break;
     case 'W':
         pose.x -= 1;
+        break;
+    // 默认情况可以处理未知方向
+    default:
+        break;
+    }
+}
+void PoseHandler::Backward() noexcept
+{
+    switch (pose.heading) {
+    case 'N':
+        pose.y -= 1;
+        break;
+    case 'S':
+        pose.y += 1;
+        break;
+    case 'E':
+        pose.x -= 1;
+        break;
+    case 'W':
+        pose.x += 1;
         break;
     // 默认情况可以处理未知方向
     default:
@@ -74,5 +94,13 @@ bool PoseHandler::IsFast() const noexcept
 Pose PoseHandler::Query() const noexcept
 {
     return pose;
+}
+void PoseHandler::Reverse() noexcept
+{
+    reverse = !reverse;
+}
+bool PoseHandler::IsReverse() const noexcept
+{
+    return reverse;
 }
 }  // namespace adas
