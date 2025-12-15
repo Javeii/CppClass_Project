@@ -14,6 +14,7 @@
 **/.vscode/*
 src/main
 tags
+tests/googletest
 
 cmake-build-debug
 
